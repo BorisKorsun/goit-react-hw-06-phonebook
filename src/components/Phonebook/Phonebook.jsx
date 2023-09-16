@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 
-const Phonebook = ({  onSubmit }) => {
+const Phonebook = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const initialValue = {
@@ -27,7 +27,14 @@ const Phonebook = ({  onSubmit }) => {
   };
   return (
     <>
-      <Formik initialValues={initialValue} onSubmit={() => onSubmit({name, number})}>
+      <Formik
+        initialValues={initialValue}
+        onSubmit={() => {
+          onSubmit({ name, number });
+          setName('');
+          setNumber('');
+        }}
+      >
         <Form>
           <label>
             Name{' '}
