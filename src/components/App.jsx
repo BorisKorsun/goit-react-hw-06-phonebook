@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { add, remove } from 'redux/phonebookSlice';
+import { changeFilter } from 'redux/filterSlice';
 
 import Section from 'components/Section';
 import Phonebook from 'components/Phonebook/';
@@ -9,24 +9,13 @@ import Filter from 'components/Filter';
 
 export default function App() {
   const contacts = useSelector(state => state.phonebook.contacts);
-  // const [contacts, setContacts] = useState(() => defaultContacts);
-  const [filter, setFilter] = useState('');
+  const filter = useSelector(state => state.filter.value)
 
   const dispatch = useDispatch();
 
-  console.log(contacts);
-
-  const onInputChange = e => {
+  const onFilterChange = e => {
     const value = e.target.value;
-    const { name } = e.target;
-
-    switch (name) {
-      case 'filter':
-        setFilter(value);
-        break;
-      default:
-        throw new Error(`There is no option name - ${name}`);
-    }
+    dispatch(changeFilter(value))
   };
 
   const onSubmitForm = ({ name, number }) => {
@@ -39,9 +28,7 @@ export default function App() {
   };
 
   const onDeleteBtnClick = deleteId => {
-    // const newContactList = contacts.filter(({ id }) => id !== deleteId);
     dispatch(remove(deleteId));
-    // setContacts(newContactList);
   };
 
   const filterContacts = () => {
@@ -56,7 +43,7 @@ export default function App() {
         <Phonebook onSubmit={onSubmitForm} />
       </Section>
       <Section title="Contacts">
-        <Filter filter={filter} onFilterChange={onInputChange} />
+        <Filter filter={filter} onFilterChange={onFilterChange} />
         <Contacts
           contacts={filterContacts()}
           onButtonClick={onDeleteBtnClick}

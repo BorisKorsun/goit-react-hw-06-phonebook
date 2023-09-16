@@ -8,11 +8,13 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { persistStore } from 'redux-persist';
-import { persistedReducer } from 'redux/phonebookSlice/phonebookSlice';
+import { persistedPhonebookReducer } from 'redux/phonebookSlice';
+import { persistedFilterReducer } from 'redux/filterSlice';
 
 export const store = configureStore({
   reducer: {
-    phonebook: persistedReducer,
+    phonebook: persistedPhonebookReducer,
+    filter: persistedFilterReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
