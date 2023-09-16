@@ -1,20 +1,40 @@
+import { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 
-const Phonebook = ({ name, number, onChange, onSubmit }) => {
+const Phonebook = ({  onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
   const initialValue = {
     name: '',
+    number: '',
+  };
+
+  const onInputChange = e => {
+    const value = e.target.value;
+    const { name } = e.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        throw new Error(`There is no option name - ${name}`);
+    }
   };
   return (
     <>
-      <Formik initialValues={initialValue} onSubmit={onSubmit}>
+      <Formik initialValues={initialValue} onSubmit={() => onSubmit({name, number})}>
         <Form>
           <label>
             Name{' '}
             <Field
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               autoComplete="off"
-              onChange={onChange}
+              onChange={onInputChange}
               name="name"
               value={name}
             />
@@ -25,7 +45,7 @@ const Phonebook = ({ name, number, onChange, onSubmit }) => {
             <Field
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               autoComplete="off"
-              onChange={onChange}
+              onChange={onInputChange}
               name="number"
               value={number}
             />
@@ -41,8 +61,5 @@ const Phonebook = ({ name, number, onChange, onSubmit }) => {
 export default Phonebook;
 
 Phonebook.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

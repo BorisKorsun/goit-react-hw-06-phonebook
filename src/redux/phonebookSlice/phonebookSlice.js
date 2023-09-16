@@ -24,17 +24,30 @@ const phonebookSlice = createSlice({
   reducers: {
     add: {
       reducer(state, action) {
-        return state.push(action.payload);
+        state.contacts.push(action.payload);
       },
-      prepare(name) {
+      prepare(name, number) {
         return {
           payload: {
             name,
             id: nanoid(),
+            number: number,
           },
         };
       },
     },
+    delete: {
+      reducer(state, action) {
+        return state.contacts.filter(contact => contact !== action.payload.id )
+      },
+      prepare(id) {
+        return {
+          payload: {
+            id,
+          }
+        }
+      }
+    }
   },
 });
 
@@ -42,5 +55,6 @@ export const persistedReducer = persistReducer(
   persistConfig,
   phonebookSlice.reducer
 );
+console.log();
 
 export const { add } = phonebookSlice.actions;
