@@ -1,12 +1,11 @@
-import { useState, } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { add } from 'redux/phonebookSlice';
+import { add, remove } from 'redux/phonebookSlice';
 
 import Section from 'components/Section';
 import Phonebook from 'components/Phonebook/';
 import Contacts from 'components/Contacts';
 import Filter from 'components/Filter';
-
 
 export default function App() {
   const contacts = useSelector(state => state.phonebook.contacts);
@@ -15,6 +14,7 @@ export default function App() {
 
   const dispatch = useDispatch();
 
+  console.log(contacts);
 
   const onInputChange = e => {
     const value = e.target.value;
@@ -40,6 +40,7 @@ export default function App() {
 
   const onDeleteBtnClick = deleteId => {
     // const newContactList = contacts.filter(({ id }) => id !== deleteId);
+    dispatch(remove(deleteId));
     // setContacts(newContactList);
   };
 
