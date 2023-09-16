@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { add, remove } from 'redux/phonebookSlice';
-import { changeFilter } from 'redux/filterSlice';
+import { update } from 'redux/filterSlice';
 
 import Section from 'components/Section';
 import Phonebook from 'components/Phonebook/';
@@ -15,7 +15,7 @@ export default function App() {
 
   const onFilterChange = e => {
     const value = e.target.value;
-    dispatch(changeFilter(value))
+    dispatch(update(value))
   };
 
   const onSubmitForm = ({ name, number }) => {
