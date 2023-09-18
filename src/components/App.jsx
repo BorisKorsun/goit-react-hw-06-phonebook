@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { add, remove } from 'redux/phonebookSlice';
 import { update } from 'redux/filterSlice';
+import { getFilter, getContacts } from 'redux/selectors';
 
 import Section from 'components/Section';
 import Phonebook from 'components/Phonebook/';
@@ -8,14 +9,14 @@ import Contacts from 'components/Contacts';
 import Filter from 'components/Filter';
 
 export default function App() {
-  const contacts = useSelector(state => state.phonebook.contacts);
-  const filter = useSelector(state => state.filter.value)
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   const dispatch = useDispatch();
 
   const onFilterChange = e => {
     const value = e.target.value;
-    dispatch(update(value))
+    dispatch(update(value));
   };
 
   const onSubmitForm = ({ name, number }) => {
